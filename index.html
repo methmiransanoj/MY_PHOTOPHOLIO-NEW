@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cinematic Web Developer Portfolio & Photofolio showcasing web design, frontend skills, and software engineering. Student at UoW (3rd Year Software Eng) & UoM (1st Year Chemical Eng)." />
+  <title>Dev Portfolio | Web Developer & Software Engineer</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#07090e',
+              cyan: '#00f2fe',
+              purple: '#9d4edd',
+              blue: '#4cc9f0',
+              slate: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#07090e] text-slate-100 min-h-screen selection:bg-cyan-500 selection:text-black">
+
+  <!-- Background Interactive Particles Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Ambient Glowing Background Blobs -->
+  <div class="fixed top-20 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none animate-glow-bg"></div>
+  <div class="fixed bottom-20 right-10 w-[30rem] h-[30rem] bg-purple-600/10 rounded-full blur-3xl pointer-events-none animate-glow-bg" style="animation-delay: 3s;"></div>
+
+  <!-- ==========================================================================
+       1. FLASH SCREEN / SPLASH LOADER
+       ========================================================================== -->
+  <div id="splash-screen">
+    <div class="terminal-window p-1">
+      <div class="terminal-header justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-code text-slate-400 ml-2">Welcome to personal photofolio webpage.</span>
+        </div>
+        <i class="fas fa-terminal text-cyan-400 text-sm"></i>
+      </div>
+      <div class="p-5 font-code min-h-[220px] flex flex-col justify-between">
+        <div id="terminal-logs" class="space-y-1">
+          <div class="text-xs md:text-sm text-slate-400 mb-2">
+            <span class="text-purple-400">methmiransanoj@portfolio:-</span> ./start_portfolio...
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+            <span>Loading...</span>
+            <span class="text-cyan-400 font-bold" id="splash-percent">100%</span>
+          </div>
+          <div class="w-full bg-slate-800/80 rounded-full h-2 overflow-hidden border border-slate-700">
+            <div id="splash-progress-bar" class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skip Button -->
+    <button id="skip-splash-btn" class="mt-6 px-5 py-2 rounded-full border border-cyan-500/30 text-xs font-code text-cyan-400 hover:bg-cyan-500/10 transition-all">
+      Skip<i class="fas fa-forward ml-1"></i>
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+       2. STICKY NAVIGATION BAR
+       ========================================================================== -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#home" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#07090e] rounded-[11px] flex items-center justify-center">
+            <span class="font-code font-bold text-cyan-400 text-lg">&lt;/&gt;</span>
+          </div>
+        </div>
+        <span class="font-bold text-xl tracking-tight text-slate-100 group-hover:text-cyan-400 transition-colors">
+          PORTFOLIO<span class="text-cyan-400">.</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden md:flex items-center space-x-8 font-medium text-sm text-slate-300">
+        <a href="#home" class="nav-link hover:text-cyan-400 transition-colors">Home</a>
+        <a href="#about" class="nav-link hover:text-cyan-400 transition-colors">About</a>
+        <a href="#skills" class="nav-link hover:text-cyan-400 transition-colors">Skills</a>
+        <a href="#contact" class="nav-link hover:text-cyan-400 transition-colors">Web Mail</a>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="hidden md:flex items-center">
+        <a href="#contact" class="px-5 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <i class="fas fa-paper-plane mr-2"></i> Get In Touch
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-cyan-400 text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 border-b border-slate-800 backdrop-blur-xl px-6 py-6 space-y-4">
+      <a href="#home" class="block text-slate-300 hover:text-cyan-400 font-medium">Home</a>
+      <a href="#about" class="block text-slate-300 hover:text-cyan-400 font-medium">About</a>
+      <a href="#skills" class="block text-slate-300 hover:text-cyan-400 font-medium">Skills</a>
+      <a href="#contact" class="block text-slate-300 hover:text-cyan-400 font-medium">Web Mail</a>
+      <a href="#contact" class="inline-block w-full text-center py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950">
+        Contact Me
+      </a>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       3. HERO SECTION
+       ========================================================================== -->
+  <section id="home" class="min-h-screen pt-28 pb-16 flex items-center justify-center relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs sm:text-sm font-code">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>Open to Web Development Projects</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          Hi, I'm a <br />
+          <span class="text-gradient">Web Developer & Engineer</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          We build modern, high-performance web applications with clean, well-structured code and thoughtful design. We focus on creating smooth, engaging digital experiences that combine strong software engineering principles with modern web design.
+        </p>
+
+        <!-- Degree Education Pills -->
+        <div class="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
+          <div class="glass-card px-4 py-2.5 rounded-xl border border-purple-500/30 flex items-center space-x-3 text-xs sm:text-sm font-medium text-slate-200">
+            <i class="fas fa-graduation-cap text-purple-400 text-base"></i>
+            <span> Software Engineering @ <strong class="text-purple-300">UoW</strong></span>
+          </div>
+          <div class="glass-card px-4 py-2.5 rounded-xl border border-cyan-200/30 flex items-center space-x-3 text-xs sm:text-sm font-medium text-slate-200">
+            <i class="fas fa-graduation-cap text-cyan-400 text-base"></i>
+            <span>Computer Science & Engineering @ <strong class="text-cyan-300">UoM</strong></span>
+          </div>
+        </div>
+
+        <!-- Hero Buttons -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">          
+          <a href="#contact" class="px-8 py-3.5 rounded-xl font-semibold border border-purple-500/30 bg-purple-950/20 hover:bg-purple-900/30 text-purple-300 transition-all">
+            Web Mail <i class="fas fa-envelope ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Profile Visual Card -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative group max-w-md w-full">
+          <!-- Ambient Glow Frame -->
+          <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur opacity-50 group-hover:opacity-80 transition duration-500"></div>
+          
+          <div class="relative glass-card p-4 rounded-3xl border border-slate-700/80 overflow-hidden">
+            <div class="relative rounded-2xl overflow-hidden aspect-square">
+              <img src="assets/images/Profile.png" alt="Developer Profile Portrait" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#07090e] via-transparent to-transparent opacity-80"></div>
+              
+              <!-- Floating Overlay Tags -->
+              <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. ABOUT SECTION
+       ========================================================================== -->
+  <section id="about" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+      
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-white">About Me & Vision</h3>
+        <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1: Web Dev Passion -->
+        <div class="glass-card p-8 rounded-2xl border border-slate-800 space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl">
+            <i class="fas fa-globe"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white">Web Development Focus</h4>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            I enjoy building modern websites that are clean, responsive, and easy to use. I work with HTML, CSS, JavaScript, and Tailwind CSS to create smooth web experiences that look great and perform well.
+          </p>
+        </div>
+
+        <!-- Card 2: Dual Education Synergy -->
+        <div class="glass-card p-8 rounded-2xl border border-slate-800 space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white">Engineering Mindset</h4>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Studying Computer Science Engineering has taught me to approach problems with a logical and practical mindset. I enjoy breaking down complex challenges, finding efficient solutions, and turning ideas into useful software. I combine this engineering approach with creativity to build applications that are both functional and thoughtfully designed.
+          </p>
+        </div>
+
+        <!-- Card 3: Cinematic Aesthetic -->
+        <div class="glass-card p-8 rounded-2xl border border-slate-800 space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl">
+            <i class="fas fa-palette"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white">Cinematic Visuals</h4>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            I believe a good website should be more than just functional. I focus on creating engaging interfaces with thoughtful layouts, smooth interactions, and modern visual elements that make websites enjoyable and memorable to use.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+     5. SKILLS MATRIX SECTION
+     ========================================================================== -->
+<section id="skills" class="py-24 bg-slate-950/60 border-y border-slate-800/60 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+    
+      <h3 class="text-3xl sm:text-5xl font-extrabold text-white">Web & Software Skills</h3>
+      <p class="text-slate-400 text-sm">Core technologies I use to craft modern web apps</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      
+      <!-- Skill 1: HTML5 & Semantic Structure -->
+      <div class="glass-card p-6 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-bold text-slate-200 flex items-center">
+            <i class="fab fa-html5 text-orange-500 text-xl mr-3"></i> HTML5 & Semantic Markup
+          </span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Building clean, accessible, and well-structured foundations that search engines and screen readers love.
+        </p>
+      </div>
+
+      <!-- Skill 2: CSS3 & Tailwind CSS -->
+      <div class="glass-card p-6 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-bold text-slate-200 flex items-center">
+            <i class="fab fa-css3-alt text-blue-500 text-xl mr-3"></i> CSS3 & Tailwind CSS
+          </span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Crafting fast, responsive layouts and smooth animations that bring designs to life seamlessly.
+        </p>
+      </div>
+
+      <!-- Skill 3: JavaScript ES6+ -->
+      <div class="glass-card p-6 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-bold text-slate-200 flex items-center">
+            <i class="fab fa-js text-yellow-400 text-xl mr-3"></i> JavaScript (ES6+ Logic & DOM)
+          </span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Writing clear, dynamic logic to power interactive user experiences and handle complex frontend state.
+        </p>
+      </div>
+      <!-- Skill 5: Software Engineering Principles -->
+      <div class="glass-card p-6 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-bold text-slate-200 flex items-center">
+            <i class="fas fa-layer-group text-emerald-400 text-xl mr-3"></i> Software Architecture & OOP
+          </span>
+          
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Structuring maintainable codebases and modular patterns designed to scale as applications grow.
+        </p>        
+      </div>
+
+      <!-- Skill 6: Git & Web Deployment -->
+      <div class="glass-card p-6 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-bold text-slate-200 flex items-center">
+            <i class="fab fa-git-alt text-red-500 text-xl mr-3"></i> Git, GitHub & Web Deployment
+          </span>
+          
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Managing version control, collaborating smoothly, and deploying web apps reliably to production.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ==========================================================================
+       6. LIGHTBOX MODAL (FOR PHOTOFOLIO)
+       ========================================================================== -->
+  <div id="lightbox-modal">
+    <button id="lightbox-close" class="absolute top-6 right-6 text-slate-400 hover:text-cyan-400 text-3xl z-50">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="max-w-4xl w-full p-4 flex flex-col items-center">
+      <div class="relative rounded-2xl overflow-hidden glass-card p-2 border border-slate-700 max-h-[80vh]">
+        <img id="lightbox-img" src="" alt="Lightbox Preview" class="max-h-[70vh] w-auto object-contain rounded-xl" />
+      </div>
+      <div id="lightbox-caption" class="mt-4 text-center"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       7. INTERACTIVE CONTACT & "WEB MAIL" SECTION
+       ========================================================================== -->
+  <section id="contact" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-white">Web Mail & Contact</h3>
+        <p class="text-slate-400 text-sm">Send a direct message or connect for web development collaborations</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto items-start">
+        
+        <!-- Left Contact Direct Links -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="glass-card p-8 rounded-2xl border border-slate-800 space-y-6">
+            <h4 class="text-2xl font-bold text-white">Let's Connect</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">      
+        Need a professional website for your <strong>personal portfolio,
+        business, or project</strong>? I can help turn your ideas into a
+        modern, responsive website.
+    </p>
+    <p class="text-slate-400 text-sm leading-relaxed">
+        <strong>Have an idea? Let’s build it together. Contact me today.</strong>
+    </p>
+            <div class="space-y-4 pt-2">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-lg">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-code text-slate-400">EMAIL</span>
+                  <p class="text-sm font-semibold text-slate-200">methmiransanoj@gmail.com</p>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-lg">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-code text-slate-400">DEGREES</span>
+                  <p class="text-sm font-semibold text-slate-200">Software engineering (UOW) & Chemical Engineering (UOM)</p>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+                  <i class="fas fa-location-dot"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-code text-slate-400">LOCATION</span>
+                  <p class="text-sm font-semibold text-slate-200">Sri Lanka</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="pt-4 border-t border-slate-800 flex space-x-4">
+              <a href="https://www.instagram.com/meth_sanoj?igsh=MWptZnltc3RjbXAxMg%3D%3D&utm_source=qr" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all">
+                <i class="fab fa-instagram text-lg"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/methmiran-sanoj-9b9236425" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all">
+                <i class="fab fa-linkedin-in text-lg"></i>
+              </a>
+              <a href="https://wa.me/94778943768" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all">
+                <i class="fab fa-whatsapp text-lg"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Web Mail Form -->
+        <div class="lg:col-span-7">
+          <div class="glass-card p-8 rounded-2xl border border-slate-800 relative">
+            <form id="webmail-form" action="https://formspree.io/f/mzepdnzd" method="POST" class="space-y-6">
+              <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex items-center space-x-3">
+                  <i class="fas fa-paper-plane text-cyan-400 text-xl"></i>
+                  <h4 class="text-xl font-bold text-white">Web Mail Terminal</h4>
+                </div>
+                <span class="text-xs font-code text-cyan-400/80 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">STATUS: ONLINE</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="sender-name" class="text-xs font-code text-slate-300">YOUR NAME</label>
+                  <input type="text" id="sender-name" name="name" placeholder="John Doe" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition-colors" required />
+                </div>
+                <div class="space-y-2">
+                  <label for="sender-email" class="text-xs font-code text-slate-300">YOUR EMAIL</label>
+                  <input type="email" id="sender-email" name="email" placeholder="john@example.com" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition-colors" required />
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="sender-subject" class="text-xs font-code text-slate-300">SUBJECT</label>
+                <input type="text" id="sender-subject" name="subject" placeholder="Web Development Collaboration" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition-colors" />
+              </div>
+
+              <div class="space-y-2">
+                <label for="sender-message" class="text-xs font-code text-slate-300">MESSAGE</label>
+                <textarea id="sender-message" name="message" rows="5" placeholder="Write your message here..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition-colors resize-none" required></textarea>
+              </div>
+
+              <button type="submit" id="mail-submit-btn" class="w-full py-4 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-purple-500 hover:shadow-xl hover:shadow-cyan-500/25 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2">
+                <i class="fas fa-paper-plane"></i>
+                <span>Transmit Message</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Toast Notification Popup -->
+  <div id="toast-notification" class="fixed bottom-8 right-8 z-50 bg-slate-900/90 text-white px-6 py-4 rounded-xl border border-slate-700 backdrop-blur-md shadow-2xl transition-all duration-500 transform translate-y-12 opacity-0 pointer-events-none"></div>
+
+  <!-- ==========================================================================
+       8. FOOTER
+       ========================================================================== -->
+  <footer class="py-8 border-t border-slate-900 bg-[#05060a] text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+      <div>
+        <p>&copy; 2026 My web Portfolio. Built with HTML5, CSS3, JS & Tailwind CSS.</p>
+        <p class="text-[11px] text-slate-600 mt-1"> Software Engineering (UOW) &  Computer Science & Engineering (UOM)</p>
+      </div>
+      <div>
+        <a href="#home" class="text-cyan-400 hover:underline flex items-center">
+          Back to top <i class="fas fa-arrow-up ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App JavaScript logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
